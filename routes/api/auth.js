@@ -34,28 +34,22 @@ router.post(
     // }
 
     const { email, password } = req.body;
-
+     
     try {
       let user = await User.findOne({ email });
 
       if (!user) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'Invalid Credentials' }] });
+        return res.json({ "errors":"!Invalid User","status":400 });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
-        return res
-          .status(400)
-          .json({ errors: [{ msg: 'Invalid Credentials' }] });
+        return res.json({ "errors":"!Invalid User","status":400 });
       }
 
       const payload = {
-        user: {
-          id: user.id
-        }
+       user
       };
 
       jwt.sign(
@@ -64,7 +58,7 @@ router.post(
         { expiresIn: '5 days' },
         (err, token) => {
           if (err) throw err;
-          res.json({ "message":"Successfully logged in","token":token,"userInfo":payload });
+          res.json({ "message":"Successfully logged in","token":token,"userInfo":payload,"status":200 });
         }
       );
     } catch (err) {
