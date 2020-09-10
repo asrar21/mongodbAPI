@@ -14,14 +14,13 @@ router.get(
         let order=await Order.find({createdBy:id})
        
        if(order){
-          res.status(200).send({"message":`success`,"data":order});
+          res.json({"message":`success`,"data":order,"status":200});
        }
        else{
-          res.status(500).send({"message":"Something went wrong"});
+          res.json({"message":"data not found","data":[],"status":400});
        }
       } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server error');
+        res.json({"message":`${err}`,"status":400});
       }
     }
   );
@@ -34,14 +33,13 @@ router.get(
        let order=await Order.find()
        
        if(order){
-          res.status(200).send({"message":`success`,"data":order});
+        res.json({"message":`success`,"data":order,"status":200});
        }
        else{
-          res.status(500).send({"message":"Something went wrong"});
+        res.json({"message":"data not found","data":[],"status":400});
        }
       } catch (err) {
-        console.error(err.message);
-        res.status(500).send('Server error');
+        res.json({"message":`${err}`,"status":400});
       }
     }
   );
@@ -51,21 +49,25 @@ router.post(
   
   async (req, res) => {
     
-    const { name,price,productId,quantity,orderBy,createdBy} = req.body;
+    const { name,price,productId,quantity,orderBy,createdBy,orders} = req.body;
     try {
-     let order=new Order({
-        name,price,productId,quantity,orderBy,createdBy
-     })
-     let saveOrder=await order.save()
-     if(saveOrder){
-        res.status(200).send({"message":`your order is placed ${order.name} is successfully created`});
+    let result=[];
+     for(let i=0;i<orders.length;i++){
+      
+     let order=await Order.save({name:orders[i].name,price:orders[i].price,productId:orders[i].productId,quantity:orders[i].quantity,orderBy:orderBy,createdBy:orders[i].createdBy})
+     if(order){
+     result.push({"message":"created order"})
+     }
+  }
+     
+     if(result.length>0){
+        res.json({"message":`your order is placed  successfully created`,"status":200});
      }
      else{
-        res.status(500).send({"message":"Something went wrong"});
+        res.json({"message":"unable to place an order","status":400});
      }
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server error');
+      res.json({"message":`${err}`,"status":400});
     }
   }
 );

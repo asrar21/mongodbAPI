@@ -29,7 +29,7 @@ router.post(
       if (user) {
         return res
           .status(400)
-          .json({ errors: [{ msg: 'User already exists' }] });
+          .json({"message":'User already exists',"status":400});
       }
 
       
@@ -59,7 +59,7 @@ router.post(
         { expiresIn: '5 days' },
         (err, token) => {
           if (err) throw err;
-          res.json({ "message":"User created","token":token });
+          res.json({ "message":"User created","token":token,"status":200 });
         }
       );
     } catch (err) {

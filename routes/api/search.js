@@ -32,14 +32,13 @@ router.post(
         // console.log("result",result)
 }
    if(result!==[]){
-        res.status(200).send({"message":`success`,"data":result});
+        res.json({"message":`success`,"data":result,"status":200});
      }
      else{
-        res.status(500).send({"message":"Something went wrong"});
+        res.status(500).send({"message":"query not Running","data":[],"status":400});
      }
     } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server error');
+      res.json({"message":`${err}`,"status":400});
     }
   }
 );
