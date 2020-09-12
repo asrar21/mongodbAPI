@@ -49,7 +49,7 @@ router.post(
   
   async (req, res) => {
     
-    const { name,price,productId,quantity,orderBy,createdBy,orders} = req.body;
+    const { orderBy,orders} = req.body;
     try {
     let result=[];
      for(let i=0;i<orders.length;i++){

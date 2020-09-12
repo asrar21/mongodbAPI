@@ -56,9 +56,9 @@ router.put(
     
     const { name,price,location,image,productId} = req.body;
     try {
-     new Product.update (
-      { _id : productId },
-      { $set : { name,price,location,image} },
+     Product.findByIdAndUpdate(
+       productId ,
+       { name:name,price:price,location:location,image:image} , {new: true},
       function( err, result ) {
           if ( err ){
             res.json({"message":`${err}`,"status":400});
