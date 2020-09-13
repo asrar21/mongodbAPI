@@ -58,6 +58,10 @@ router.post(
     
     const { name,price,location,image,createdBy} = req.body;
     try {
+      console.log("name",name)
+      console.log("price",price)
+      console.log("location",location)
+      console.log("price",image)
       if(typeof name===undefined || name===""){
         return  res.json({"message":'Please Provide Your Food name',"status":400});
       }
@@ -67,7 +71,7 @@ router.post(
       if(typeof image===undefined || image===""){
         return  res.json({"message":'Please Provide Your Food image',"status":400});
       }
-      if(typeof price===undefined || price==="" || !Number.isInteger(JSON.parse(price))){
+      if(typeof price===undefined || price==="" || !Number.isInteger(price)){
         return  res.json({"message":'Please Provide Your price',"status":400});
       }
      let product=new Product({
@@ -92,6 +96,10 @@ router.put(
     
     const { name,price,location,image,productId} = req.body;
     try {
+      console.log("name",name)
+      console.log("price",price)
+      console.log("location",location)
+      console.log("price",image)
       if(typeof name===undefined || name===""){
         return  res.json({"message":'Please Provide Your Food name',"status":400});
       }
@@ -101,7 +109,7 @@ router.put(
       if(typeof image===undefined || image===""){
         return  res.json({"message":'Please Provide Your Food image',"status":400});
       }
-      if(typeof price===undefined || price==="" || !Number.isInteger(JSON.parse(price))){
+      if(typeof price===undefined || price==="" || !Number.isInteger(price)){
         return  res.json({"message":'Please Provide Your price',"status":400});
       }
      Product.findByIdAndUpdate(
