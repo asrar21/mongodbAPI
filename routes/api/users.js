@@ -24,6 +24,19 @@ router.post(
     const { name, email, password,type,cellnumber } = req.body;
 
     try {
+
+      if(typeof email===undefined || !validateEmail(email) ||email===""){
+        return  res.json({"message":'Please Provide Valid Email Address',"status":400});
+      }
+      if(typeof name===undefined || name===""){
+        return  res.json({"message":'Please Provide Your name',"status":400});
+      }
+      if(typeof password===undefined || password===""){
+        return  res.json({"message":'Please Provide Your password',"status":400});
+      }
+      if(typeof cellnumber===undefined || cellnumber==="" || !Number.isInteger(JSON.parse(cellnumber))){
+        return  res.json({"message":'Please Provide Your cellnumber',"status":400});
+      }
       let user = await User.findOne({ email });
 
       if (user) {
@@ -70,3 +83,7 @@ router.post(
 );
 
 module.exports = router;
+function validateEmail(email) {
+  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}

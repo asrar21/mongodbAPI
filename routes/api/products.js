@@ -26,6 +26,30 @@ router.get(
       }
     }
   );
+  router.get(
+    '/allproducts',
+    
+    async (req, res) => {
+      
+      
+      try {
+        // console.log("req.query.createdBy",req.query.createdBy)
+       
+        
+       let product=await Product.find()
+       
+       if(product){
+          res.json({"message":`success`,"data":product,"status":200});
+       }
+       else{
+          res.json({"message":"data not found","data":[],"status":400});
+       }
+      } catch (err) {
+        res.json({"message":`${err}`,"status":400});
+      }
+    }
+  );
+
 
 router.post(
   '/',
@@ -34,6 +58,18 @@ router.post(
     
     const { name,price,location,image,createdBy} = req.body;
     try {
+      if(typeof name===undefined || name===""){
+        return  res.json({"message":'Please Provide Your Food name',"status":400});
+      }
+      if(typeof location===undefined || location===""){
+        return  res.json({"message":'Please Provide Your location',"status":400});
+      }
+      if(typeof image===undefined || image===""){
+        return  res.json({"message":'Please Provide Your Food image',"status":400});
+      }
+      if(typeof price===undefined || price==="" || !Number.isInteger(JSON.parse(price))){
+        return  res.json({"message":'Please Provide Your price',"status":400});
+      }
      let product=new Product({
         name,price,location,image,createdBy
      })
@@ -56,6 +92,18 @@ router.put(
     
     const { name,price,location,image,productId} = req.body;
     try {
+      if(typeof name===undefined || name===""){
+        return  res.json({"message":'Please Provide Your Food name',"status":400});
+      }
+      if(typeof location===undefined || location===""){
+        return  res.json({"message":'Please Provide Your location',"status":400});
+      }
+      if(typeof image===undefined || image===""){
+        return  res.json({"message":'Please Provide Your Food image',"status":400});
+      }
+      if(typeof price===undefined || price==="" || !Number.isInteger(JSON.parse(price))){
+        return  res.json({"message":'Please Provide Your price',"status":400});
+      }
      Product.findByIdAndUpdate(
        productId ,
        { name:name,price:price,location:location,image:image} , {new: true},
