@@ -34,15 +34,13 @@ router.post(
       if(typeof password===undefined || password===""){
         return  res.json({"message":'Please Provide Your password',"status":400});
       }
-      if(typeof cellnumber===undefined || cellnumber==="" || !Number.isInteger(cellnumber)){
+      if(typeof cellnumber===undefined || cellnumber==="" || cellnumber===null){
         return  res.json({"message":'Please Provide Your cellnumber',"status":400});
       }
       let user = await User.findOne({ email });
 
       if (user) {
-        return res
-          .status(400)
-          .json({"message":'User already exists',"status":400});
+        return res.json({"message":'User already exists',"status":400});
       }
 
       
