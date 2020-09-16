@@ -47,7 +47,7 @@ router.get(
      let id=ObjectId(response[i].createdBy)
      let userInfo=await User.find({_id:id})
      // console.log(userInfo)
-     result.push({"productid":response[i]._id  ,"name":response[i].name,"price":response[i].price,"location":response[i].location,"contact":userInfo[0].cellnumber,"sellerName":userInfo[0].name,"image":response[i].image})
+     result.push({"productid":response[i]._id  ,"name":response[i].name,"price":response[i].price,"location":response[i].location,"contact":userInfo[0].cellnumber,"sellerName":userInfo[0].name,"image":response[i].image,"createdBy":response[i].createdBy})
      // console.log("result",result)
 }
 if(result!==[]){
