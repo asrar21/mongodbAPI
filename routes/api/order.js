@@ -64,7 +64,7 @@ router.post(
     let result=[];
      for(let i=0;i<orders.length;i++){
       
-     let order=new Order({name:orders[i].name,price:orders[i].price,productId:orders[i]._id,quantity:orders[i].qty,orderBy:orderBy,createdBy:orders[i].createdBy})
+     let order=new Order({name:orders[i].name,price:orders[i].price,productId:orders[i].productid,quantity:orders[i].qty,orderBy:orderBy,createdBy:orders[i].createdBy})
     let placedorder=await order.save()
      if( placedorder){
      result.push({"message":"created order"})
