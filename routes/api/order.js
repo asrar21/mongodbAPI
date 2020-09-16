@@ -12,7 +12,7 @@ router.get(
      
       try {
         let id=ObjectId(req.query.createdBy)
-        let response=await Order.find({createdBy:id})
+        let response=await Order.find({orders:[{createdBy:id}]})
        
         
        let result=[];
@@ -20,7 +20,7 @@ router.get(
       let id=ObjectId(response[i].orderBy)
       let userInfo=await User.find({_id:id})
       // console.log(userInfo)
-      result.push({"productid":response[i].productId ,"name":response[i].name,"price":response[i].price,"contact":userInfo[0].cellnumber,"buyerName":userInfo[0].name,"quantity":response[i].quantity})
+      result.push({"productid":response[i].productid ,"name":response[i].name,"price":response[i].price,"contact":userInfo[0].cellnumber,"buyerName":userInfo[0].name,"qty":response[i].qty})
       // console.log("result",result)
 }
  if(result!==[]){

@@ -18,7 +18,7 @@ const OrderSchema = new mongoose.Schema({
   productid: {
     type: Schema.Types.ObjectId,
   },
-  quantity: {
+  qty: {
     type: String,
   },
   createdBy: {
