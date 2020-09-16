@@ -61,17 +61,16 @@ router.post(
     
     const { orderBy,orders} = req.body;
     try {
-    let result=[];
-     for(let i=0;i<orders.length;i++){
+   
+    if(orders===[] || typeof orders===undefined || orders===null){
+      return  res.json({"message":'Please Provide Order List',"status":400});
+    }
       
-     let order=new Order({name:orders[i].name,price:orders[i].price,productId:orders[i].productid,quantity:orders[i].qty,orderBy:orderBy,createdBy:orders[i].createdBy})
-    let placedorder=await order.save()
-     if( placedorder){
-     result.push({"message":"created order"})
-     }
-  }
+     let order=new Order({orderBy:orderBy,orders:orders})
+    let orderPlaced=await order.save()
      
-     if(result.length>0){
+     
+     if(orderPlaced){
         res.json({"message":`your order is placed  successfully created`,"status":200});
      }
      else{

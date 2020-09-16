@@ -1,6 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const OrderSchema = new mongoose.Schema({
+  
+  orderBy: {
+    type: Schema.Types.ObjectId,
+ },
+ 
+ orders: [{
+
   name: {
     type: String,
     required: true
@@ -8,18 +15,17 @@ const OrderSchema = new mongoose.Schema({
   price: {
     type: String,
     },
-  productId: {
+  productid: {
     type: Schema.Types.ObjectId,
   },
   quantity: {
     type: String,
   },
-  orderBy: {
+  createdBy: {
     type: Schema.Types.ObjectId,
  },
- createdBy: {
-    type: Schema.Types.ObjectId,
- },
+
+}],
  date: {
     type: Date,
     default: Date.now
