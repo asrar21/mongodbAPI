@@ -12,16 +12,19 @@ router.get(
      
       try {
         let id=ObjectId(req.query.createdBy)
-        let response=await Order.find({orders:[{createdBy:id}]})
+        let response=await Order.find( { "orders.createdBy": id})
        
-        
+        // console.log("response",response)
        let result=[];
   for(let i=0;i<response.length;i++){
       let id=ObjectId(response[i].orderBy)
       let userInfo=await User.find({_id:id})
+      let orders=response[i].orders
+      for(let j=0;j<orders.length;j++){
       // console.log(userInfo)
-      result.push({"productid":response[i].productid ,"name":response[i].name,"price":response[i].price,"contact":userInfo[0].cellnumber,"buyerName":userInfo[0].name,"qty":response[i].qty})
+      result.push({"productid":orders[j].productid ,"name":orders[j].name,"price":orders[j].price,"contact":userInfo[0].cellnumber,"buyerName":userInfo[0].name,"qty":orders[j].qty})
       // console.log("result",result)
+      }
 }
  if(result!==[]){
       res.json({"message":`success`,"data":result,"status":200});
