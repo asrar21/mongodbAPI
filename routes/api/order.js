@@ -4,6 +4,7 @@ let ObjectId =require("mongodb").ObjectId
 
 const Order = require('../../model/Order.js');
 const User = require('../../model/User');
+
 router.get(
     '/',
     
@@ -11,18 +12,25 @@ router.get(
       
      
       try {
-        let id=ObjectId(req.query.createdBy)
-        let response=await Order.find( { "orders.createdBy": id})
-       
-        // console.log("response",response)
+
+        let id1=ObjectId(req.query.createdBy)
+      
+        var query = { orders: { $elemMatch: { createdBy: id1 } } };
+        let response=await Order.find(query)
+         console.log("resposne",response)
        let result=[];
   for(let i=0;i<response.length;i++){
       let id=ObjectId(response[i].orderBy)
       let userInfo=await User.find({_id:id})
       let orders=response[i].orders
+      console.log("orders",orders)
       for(let j=0;j<orders.length;j++){
-      // console.log(userInfo)
-      result.push({"productid":orders[j].productid ,"name":orders[j].name,"price":orders[j].price,"contact":userInfo[0].cellnumber,"buyerName":userInfo[0].name,"qty":orders[j].qty})
+      // console.log(ObjectId(orders[j].createdBy))
+      if(orders[j].createdBy.toString()===id1.toString()){
+        
+        result.push({"productid":orders[j].productid ,"name":orders[j].name,"price":orders[j].price,"contact":userInfo[0].cellnumber,"buyerName":userInfo[0].name,"qty":orders[j].qty})
+      }
+     
       // console.log("result",result)
       }
 }
@@ -35,6 +43,8 @@ router.get(
       } catch (err) {
         res.json({"message":`${err}`,"status":400});
       }
+
+     
     }
   );
 
